@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_crontab',
     'django_htmx',
+    'widget_tweaks',
     'core'
 ]
 

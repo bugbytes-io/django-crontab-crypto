@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
-{% block content %} 
-    <p>Prices for {{ currency }}</p>
 
-    <ul hx-get="{% url 'index' %}" hx-trigger="every 3s">
-    {% for crypo_price in crypto_prices %}
-        <li>{{ crypo_price.price }}</li>
-    {% endfor %}
-    </ul>
+{% block content %}
+
+    <div class="row">
+        <div class="col-10">
+            <div id="chart" hx-get="{% url 'index' %}" hx-trigger="every 3s" hx-vals="js:{name: document.getElementById('id_name').value}">
+                {% include 'partials/chart.html' %}
+            </div>
+        </div>
+        <div class="col-2">
+            {% render_field form.name class="custom-select" autocomplete="off" hx-get="/" hx-target="#chart" %}
+        </div>
+    </div>
+
 {% endblock %}
