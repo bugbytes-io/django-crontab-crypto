@@ -13,7 +13,7 @@ COPY ./requirements.txt /usr/src/app
 
 RUN pip install -r requirements.txt
 
-# cron options
+# django-crontab logfile
 RUN mkdir /cron
 RUN touch /cron/django_cron.log
 
