@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %} 
-    {% lorem 3 %}
+    <p>Prices for {{ currency }}</p>
+
+    <ul hx-get="{% url 'index' %}" hx-trigger="every 3s">
+    {% for crypo_price in crypto_prices %}
+        <li>{{ crypo_price.price }}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}

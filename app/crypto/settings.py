@@ -1,4 +1,8 @@
 from pathlib import Path
+import environ
+
+# create env object
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_crontab',
+    'django_htmx',
     'core'
 ]
 
@@ -32,6 +38,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    "django_htmx.middleware.HtmxMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -110,3 +117,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CoinMarketCap
+API_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
+CMC_API_KEY = env('COINMARKETCAP_KEY')
+
+# django-crontab
+CRON_LOGFILE = '/cron/django_cron.log'
+CRONJOBS = [
+    ('* * * * *', 'core.cron.fetch_crypto_prices', '>> /cron/django_cron.log 2>&1'),
+]
+
+CRONTAB_COMMAND_PREFIX = f'COINMARKETCAP_KEY={CMC_API_KEY}'
